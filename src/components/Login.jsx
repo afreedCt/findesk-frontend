@@ -28,9 +28,11 @@ const Login = () => {
                   const ispassword=await bcrypt.compare(password,user.password)
                     if(ispassword){
                         sessionStorage.setItem('user',JSON.stringify(user))
-                        if(user?.role=='admin'){
+                        if(user?.role==='admin'){
+                          console.log("going to admin page");
+                          
                           navigate('/admin')
-                          location.reload()
+                          // location.reload()
                         }else{
                           navigate('/')
                         }

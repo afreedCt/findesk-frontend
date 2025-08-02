@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { deleteUserAPI, getAllUserDataAPI, updateUserRoleAPI } from "../service/allApi";
+import {
+  deleteUserAPI,
+  getAllUserDataAPI,
+  updateUserRoleAPI,
+} from "../service/allApi";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Login from "../components/Login";
@@ -14,7 +18,6 @@ const AdminDashboard = () => {
   const [selectedAccount, setSelectedAccount] = useState(userDetails?.role);
 
   const [showModal, setShowModal] = useState(false); //for delete modal component
-
 
   const handleClose = () => {
     setUserDetails({});
@@ -65,19 +68,18 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async () => {
-    console.log("user deleting",userDetails);
+    console.log("user deleting", userDetails);
     try {
-      const res=await deleteUserAPI(userDetails?.id)
+      const res = await deleteUserAPI(userDetails?.id);
       if (res.status >= 200 && res.status < 300) {
         toast.success(`${userDetails?.username} deleted successfully`);
         getAllUsersData();
-        setShowModal(false)
-        setUserDetails({})
+        setShowModal(false);
+        setUserDetails({});
       }
     } catch (error) {
-      console.log("error to delete a user (AdminDashboard) : ",error);
+      console.log("error to delete a user (AdminDashboard) : ", error);
     }
-    
   };
 
   return (
@@ -85,50 +87,52 @@ const AdminDashboard = () => {
       {user && user.role == "admin" ? (
         <div>
           <h1 className="mt-5 ms-5 fw-bold">All Users</h1>
-          <Table striped bordered hover>
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>id</th>
-                <th>username</th>
-                <th>password</th>
-                <th>role</th>
-                <th>...</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map((item, index) => (
-                <tr key={item?.id}>
-                  <td>{index + 1}</td>
-                  <td>{item.id}</td>
-                  <td>{item.username}</td>
-                  <td>{item.password}</td>
-                  <td>
-                    {item.role ? item.role : "-"}
-                    {item.role ? (
-                      <i
-                        style={{ cursor: "pointer" }}
-                        className="fa-solid fa-user-pen ms-2"
-                        onClick={() => handleShow(item)}
-                      ></i>
-                    ) : (
-                      ""
-                    )}
-                  </td>
-                  <td>
-                    <i
-                      onClick={() => {
-                        setShowModal(true);
-                        setUserDetails(item);
-                      }}
-                      style={{ cursor: "pointer" }}
-                      className="fa-solid fa-trash text-danger"
-                    ></i>
-                  </td>
+          <div style={{ overflowX: "auto" }}>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>id</th>
+                  <th>username</th>
+                  <th>password</th>
+                  <th>role</th>
+                  <th>...</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {users.map((item, index) => (
+                  <tr key={item?.id}>
+                    <td>{index + 1}</td>
+                    <td>{item.id}</td>
+                    <td>{item.username}</td>
+                    <td>{item.password}</td>
+                    <td>
+                      {item.role ? item.role : "-"}
+                      {item.role ? (
+                        <i
+                          style={{ cursor: "pointer" }}
+                          className="fa-solid fa-user-pen ms-2"
+                          onClick={() => handleShow(item)}
+                        ></i>
+                      ) : (
+                        ""
+                      )}
+                    </td>
+                    <td>
+                      <i
+                        onClick={() => {
+                          setShowModal(true);
+                          setUserDetails(item);
+                        }}
+                        style={{ cursor: "pointer" }}
+                        className="fa-solid fa-trash text-danger"
+                      ></i>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
 
           {/* delete modal (deleting a user) */}
           <DeleteModal
@@ -136,9 +140,9 @@ const AdminDashboard = () => {
               "are you sure you want to delete " + userDetails.username + " ?"
             }
             show={showModal}
-            onClose={() =>{
-              setShowModal(false)
-              setUserDetails({})
+            onClose={() => {
+              setShowModal(false);
+              setUserDetails({});
             }}
             onConfirm={handleDeleteUser}
           />

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Home from './pages/Home'
 import Ledger from './pages/Ledger'
 import Payable from './pages/Payable'
@@ -16,7 +16,14 @@ import AllComments from './pages/AllComments'
 import Footer from './components/Footer'
 
 const App = () => {
-  const user = JSON.parse(sessionStorage.getItem("user"));
+  const [user,setUser]=useState({})
+  useEffect(()=>{
+    const SotredUser = sessionStorage.getItem("user")
+    if(SotredUser){
+      setUser(JSON.parse(SotredUser))
+    }
+
+  },[])
   return (
     <>
     <ToastContainer
