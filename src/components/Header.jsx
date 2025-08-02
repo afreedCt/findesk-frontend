@@ -13,14 +13,12 @@ const Header = () => {
   const [password,setPassword]=useState('')
   const [username,setUsername]=useState('')
 
-  const toggleTheme = (mode) => {
-    const isDark = mode === "btnradio2";
-    setDarkMode(isDark);
-    document.body.setAttribute("data-bs-theme", isDark ? "dark" : "light");
-  };
+  // const toggleTheme = (mode) => {
+  //   const isDark = mode === "btnradio2";
+  //   setDarkMode(isDark);
+  //   document.body.setAttribute("data-bs-theme", isDark ? "dark" : "light");
+  // };
   const handleSession = () => {
-    console.log("calling from logout");
-    toast.success(`logout successfully`);
     navigate("/");
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("user");

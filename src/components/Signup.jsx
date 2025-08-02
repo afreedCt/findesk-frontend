@@ -9,7 +9,6 @@ const Signup = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
-  console.log(users);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,15 +34,13 @@ const Signup = () => {
         try {
           users.forEach((u) => {
             if (userExist && u.username == username ) {
-              toast.info(`${username} already exist`);
+              toast.info(`${username} already exist in finDesk`);
               userExist = false;
               return 
             }
           });
           if (userExist) {
             const hashedPassword = await bcrypt.hash(password, 10);
-            console.log(hashedPassword);
-  
             const res = await addUserAPI({
               username,
               password: hashedPassword,
@@ -58,12 +55,10 @@ const Signup = () => {
         } catch (error) {
           console.log("error to add user (Signup)", error);
         }
-      
     }
   };
   return (
     <div>
-      {/* <Header/> */}
       <div class="container mt-5 w-100 p-3">
         <div class="row justify-content-center">
           <div class="col-md-4 shadow">

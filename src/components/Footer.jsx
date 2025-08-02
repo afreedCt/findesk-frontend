@@ -17,19 +17,18 @@ const Footer = () => {
   const [reply, setReply] = useState("");
   const [showModal, setShowModal] = useState(false); //for delete modal component
   const [userDetails, setUserDetails] = useState({}); //to store the usedetails for (Delete a comment)
-  // console.log("userDetails", userDetails);
 
   useEffect(() => {
     const user = JSON.parse(sessionStorage.getItem("user"));
     setUser(user)
     fetchComments();
-  }, [sessionStorage.getItem("user")]);
+  }, []);
   const fetchComments = async () => {
     try {
       const res = await getAllCommentsAPI();
       // console.log(res);
       if ((res.status >= 200 && res.status, 300)) {
-        setComments(res.data);
+        setComments(res?.data);
       }
     } catch (error) {
       console.log("error to get all comments : ", error);
@@ -41,8 +40,8 @@ const Footer = () => {
     if (comment.trim() === "") return;
     try {
       let newComment = {
-        userId: user.id,
-        username: user.username,
+        userId: user?.id,
+        username: user?.username,
         date: new Date().toLocaleDateString(),
         time: new Date().toLocaleTimeString("en-US", {
           hour: "2-digit",
@@ -53,7 +52,6 @@ const Footer = () => {
         reply: [],
       };
       const res = await addCommentAPI(newComment);
-      console.log("comment res", res);
       if (res.status >= 200 && res.status < 300) {
         setComment("");
         fetchComments();
@@ -80,12 +78,10 @@ const Footer = () => {
         replyComment,
       };
       let com = comments.find((item) => item.id === commentId);
-      // console.log("com", com);
       if (!com) return console.log("comment not found");
       com.reply.push(newReplyComment);
 
       const res = await AddReplyCommentAPI(commentId, com);
-      // console.log("replay response", res);
       fetchComments();
       setReply('')
     } catch (error) {
@@ -94,10 +90,8 @@ const Footer = () => {
   };
 
   const handleDeleteUser = async () => {
-    console.log("comment deleting ", userDetails);
     try {
       const res = await deleteCommentAPI(userDetails?.id);
-      console.log(res);
       if (res.status >= 200 && res.status < 300) {
         toast.success("comment deleted successfully ")
         setUserDetails({})
@@ -133,7 +127,7 @@ const Footer = () => {
 
       {/* comment section */}
 
-      <h3 className="text-white mt-4 text-start ms-3">All Comments</h3>
+      <h3 className="text-white mt-4 text-center ms-3 ">All Comments</h3>
       <div className="row gap-3 ps-2" >
         {comments?.length > 0 &&
           comments.map((c, index) => (

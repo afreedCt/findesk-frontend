@@ -13,12 +13,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAllTransactionsAPI } from "../service/allApi";
 
 const Dashboard = () => {
-  const [transactions, setTransactions] = useState([]);
+  // const [transactions, setTransactions] = useState([]);
   const [summary, setSummary] = useState({ income: 0, expense: 0, profit: 0 });
   const [monthlyData, setMonthlyData] = useState([]);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
-  const [showForm, setShowForm] = useState(false);
+  // const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     getAllTransactionData();
@@ -27,7 +27,7 @@ const Dashboard = () => {
     try {
       const res = await getAllTransactionsAPI();
       if (res.status >= 200 && res.status < 300) {
-        setTransactions(res.data);
+        // setTransactions(res.data);
         calculateSummary(res.data);
         calculateMonthlyData(res.data);
       }

@@ -26,17 +26,12 @@ const Login = () => {
                 const user=res.data.find((user)=>user.username===username)
                 if(user){
                   const ispassword=await bcrypt.compare(password,user.password)
-                  console.log('ispassword',ispassword);
-                  
                     if(ispassword){
-                        console.log("hello ",user)
                         sessionStorage.setItem('user',JSON.stringify(user))
-                        if(user.role==='admin'){
-                          console.log("going to admin page");
+                        if(user?.role=='admin'){
                           navigate('/admin')
+                          location.reload()
                         }else{
-                          console.log('going to user page');
-                          
                           navigate('/')
                         }
                     }else{
@@ -47,7 +42,6 @@ const Login = () => {
                 }
             }else{
                 setUsernameError(true)
-                console.log("no users in database");
             }
             } catch (error) {
                 console.log("error to fetch all users data (Login) ",error)

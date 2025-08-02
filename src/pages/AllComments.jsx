@@ -107,7 +107,7 @@ const AllComments = () => {
         ))}
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 };

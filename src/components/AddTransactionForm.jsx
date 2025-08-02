@@ -17,8 +17,6 @@ const AddTransactionForm = () => {
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
   const [userTransactions, setUserTransactions] = useState([]);
-  console.log("userTransactions", userTransactions);
-  const isLoggedIn = sessionStorage.getItem("isLoggedIn");
   const user = JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
@@ -38,8 +36,8 @@ const AddTransactionForm = () => {
     e.preventDefault();
 
     const newTransaction = {
-      userId: user.id,
-      username: user.username,
+      userId: user?.id,
+      username: user?.username,
       date,
       account,
       type,
@@ -54,10 +52,8 @@ const AddTransactionForm = () => {
       }),
     };
 
-    // onSubmit(newTransaction);
     try {
       const res = await addTransactionAPI(newTransaction);
-      console.log("res", res);
       if (res.status >= 200 && res.status < 300) {
         toast.success(`${newTransaction.type} added successfully`);
         navigate("/");
@@ -78,7 +74,7 @@ const AddTransactionForm = () => {
   return (
     <>
       {/* <Header /> */}
-      {isLoggedIn ? (
+      {user ? (
         <div>
           <div className="card mt-4 shadow mx-3">
             <Link
