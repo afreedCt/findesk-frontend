@@ -3,7 +3,7 @@ import Home from './pages/Home'
 import Ledger from './pages/Ledger'
 import Payable from './pages/Payable'
 import Receivables from './pages/Receivables'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import ProfitLoss from './pages/ProfitLoss'
 import Signup from './components/Signup'
 import Login from './components/Login'
@@ -17,6 +17,7 @@ import Footer from './components/Footer'
 
 const App = () => {
   const [user,setUser]=useState({})
+  const navigate=useNavigate()
   useEffect(()=>{
     const SotredUser = sessionStorage.getItem("user")
     if(SotredUser){
@@ -42,10 +43,10 @@ const App = () => {
         <Route path='/login' element={<Login/>}/>
         <Route path='/signup' element={<Signup/>}/>
         <Route path='/add-income' element={<AddTransactionForm/>}/>
-        <Route path='/admin' element={user && user?.role=='admin'?<AdminDashboard/>:<Login/>}/>
+        <Route path='/admin' element={user && user?.role==='admin'?<AdminDashboard/>:<Login/>}/>
         <Route path='/all-transactions' element={user && user?.role=='admin'?<AllTransactions/>:<Login/>}/>
         <Route path='/all-comments' element={user && user?.role=='admin'?<AllComments/>:<Login/>}/>
-        <Route path='/comments' element={'/com-section'}/>
+        {/* <Route path='/comments' element={'/com-section'}/> */}
       </Routes>
       {/* <Footer/> */}
     </>
