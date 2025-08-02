@@ -31,8 +31,9 @@ const Login = () => {
                         if(user?.role==='admin'){
                           console.log("going to admin page");
                           
-                          navigate('/admin')
+                          // navigate('/admin')
                           // location.reload()
+                          window.location.href='/admin'
                         }else{
                           navigate('/')
                         }
