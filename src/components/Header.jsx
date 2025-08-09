@@ -19,10 +19,10 @@ const Header = () => {
   //   document.body.setAttribute("data-bs-theme", isDark ? "dark" : "light");
   // };
   const handleSession = () => {
-    navigate("/");
     sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("user");
-    location.reload();
+    navigate("/");
+    // location.reload();
   };
 
   const handleModalShow = () => { 

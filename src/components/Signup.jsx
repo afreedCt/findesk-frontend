@@ -9,6 +9,7 @@ const Signup = () => {
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
+  const [usernameError, setUsernameError] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,34 +28,38 @@ const Signup = () => {
   };
 
   const handleAddUser = async (e) => {
+    setUserName(false)
     e.preventDefault();
     if (username && password) {
-      let userExist=true;
-      
-        try {
-          users.forEach((u) => {
-            if (userExist && u.username == username ) {
-              toast.info(`${username} already exist in finDesk`);
-              userExist = false;
-              return 
-            }
-          });
-          if (userExist) {
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const res = await addUserAPI({
-              username,
-              password: hashedPassword,
-              role: "user",
-            });
-            console.log(res);
-            if (res.status >= 200 && res.status < 300) {
-              toast.success(`${username} successfully signuped`);
-              navigate("/login");
-            }
+      let userExist = true;
+
+      try {
+        users.forEach((u) => {
+          if (userExist && u.username == username) {
+            // toast.info(`${username} already exist in finDesk`);
+            setUsernameError(true);
+            userExist = false;
+            return;
           }
-        } catch (error) {
-          console.log("error to add user (Signup)", error);
+        });
+        if (userExist) {
+          const hashedPassword = await bcrypt.hash(password, 10);
+          const user={
+            username,
+            password: hashedPassword,
+            role: "user",
+          }
+          const res = await addUserAPI(user);
+          console.log("register res",res.data);
+          if (res.status >= 200 && res.status < 300) {
+            sessionStorage.setItem('user',JSON.stringify(res.data))
+            toast.success(`${username} successfully signuped`);
+            navigate("/");
+          }
         }
+      } catch (error) {
+        console.log("error to add user (Signup)", error);
+      }
     }
   };
   return (
@@ -62,7 +67,7 @@ const Signup = () => {
       <div class="container mt-5 w-100 p-3">
         <div class="row justify-content-center">
           <div class="col-md-4 shadow">
-            <h2 class="text-center fw-bold">Signup</h2>
+            <h2 class="text-center fw-bold my-2">Register</h2>
             <form id="loginForm" className="w-100 p-3">
               <p className="d-none">error will shoe here</p>
               <div class="form-group">
@@ -76,6 +81,7 @@ const Signup = () => {
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </div>
+              {usernameError&&<p className="text-danger fs-5 my-2">username already exist</p>}
               <div class="form-group">
                 <label for="password">Password</label>
                 <input
@@ -88,7 +94,10 @@ const Signup = () => {
                 />
               </div>
               <p className="mt-3">
-                already have an account? <Link to={"/login"}>Login</Link>{" "}
+                already have an account?{" "}
+                <Link to={"/login"} className="text-danger">
+                  Login
+                </Link>{" "}
               </p>
               <button
                 onClick={(e) => handleAddUser(e)}

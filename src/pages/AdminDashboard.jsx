@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import {
   deleteUserAPI,
+  // deleteUserAPI,
   getAllUserDataAPI,
+  // updateUserDelete,
   updateUserRoleAPI,
 } from "../service/allApi";
 import Table from "react-bootstrap/Table";
 import { useNavigate } from "react-router-dom";
 import Login from "../components/Login";
-import DeleteModal from "../components/DeleteModal";
+// import DeleteModal from "../components/DeleteModal";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
+import SERVER_URL from "../service/server";
+import axios from "axios";
+import DeleteModal from "../components/DeleteModal";
 
 const AdminDashboard = () => {
   const [show, setShow] = useState(false); //for chenger user role modal
@@ -18,6 +23,7 @@ const AdminDashboard = () => {
   const [selectedAccount, setSelectedAccount] = useState(userDetails?.role);
 
   const [showModal, setShowModal] = useState(false); //for delete modal component
+  // console.log("before showmodal : ", showModal);
 
   const handleClose = () => {
     setUserDetails({});
@@ -68,17 +74,25 @@ const AdminDashboard = () => {
   };
 
   const handleDeleteUser = async () => {
-    console.log("user deleting", userDetails);
+    console.log("userData delete===", userDetails?.id);
+    if (!userDetails?.id) {
+      console.error("Invalid userId");
+      return;
+    }
     try {
       const res = await deleteUserAPI(userDetails?.id);
-      if (res.status >= 200 && res.status < 300) {
-        toast.success(`${userDetails?.username} deleted successfully`);
+        console.log("Delete request sent. Refreshing data...");
+          toast.success(`${userDetails?.username} deleted successfully`);
         getAllUsersData();
         setShowModal(false);
         setUserDetails({});
-      }
+      // if (res.status >= 200 && res.status < 300) {
+      //   getAllUsersData();
+      //   setShowModal(false);
+      //   setUserDetails({});
+      // }
     } catch (error) {
-      console.log("error to delete a user (AdminDashboard) : ", error);
+      console.log("error to delete user : ", error);
     }
   };
 
@@ -134,19 +148,6 @@ const AdminDashboard = () => {
             </Table>
           </div>
 
-          {/* delete modal (deleting a user) */}
-          <DeleteModal
-            message={
-              "are you sure you want to delete " + userDetails.username + " ?"
-            }
-            show={showModal}
-            onClose={() => {
-              setShowModal(false);
-              setUserDetails({});
-            }}
-            onConfirm={handleDeleteUser}
-          />
-
           {/* modal to update a user role */}
           <Modal
             show={show}
@@ -188,6 +189,18 @@ const AdminDashboard = () => {
       ) : (
         <Login />
       )}
+      {/* delete modal (deleting a user) */}
+      <DeleteModal
+        message={
+          "are you sure you want to delete " + userDetails.username + " ?"
+        }
+        show={showModal}
+        onClose={() => {
+          setShowModal(false);
+          setUserDetails({});
+        }}
+        onConfirm={handleDeleteUser}
+      />
     </div>
   );
 };

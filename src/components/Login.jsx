@@ -30,7 +30,6 @@ const Login = () => {
                         sessionStorage.setItem('user',JSON.stringify(user))
                         if(user?.role==='admin'){
                           console.log("going to admin page");
-                          
                           // navigate('/admin')
                           // location.reload()
                           window.location.href='/admin'
@@ -54,13 +53,13 @@ const Login = () => {
   return (
     <div>
       {/* <Header/> */}
-          <div class="container mt-5 w-100 p-3">
-        <div class="row justify-content-center ">
-          <div class="col-md-4 shadow">
-            <h2 class="text-center fw-bold mt-2">Login</h2>
+          <div className="container mt-5 w-100 p-3">
+        <div className="row justify-content-center ">
+          <div className="col-md-4 shadow">
+            <h2 className="text-center fw-bold mt-2">Login</h2>
             <form id="loginForm" className=" w-100 p-3">
               <p className="d-none">error will shoe here</p>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="username">Username</label>
                 <input
                   type="text"
@@ -72,7 +71,7 @@ const Login = () => {
                 />
                 {usernameError&&<p className="text-danger ms-2 " id="usernameError">username not found</p>}
               </div>
-              <div class="form-group">
+              <div className="form-group">
                 <label for="password">Password</label>
                 <input
                   type="password"
@@ -85,11 +84,11 @@ const Login = () => {
                 {passwordError&&<p className="text-danger ms-2 " id="passwordError">password is inccorect</p>}
               </div>
               <p className="mt-3">
-                dont have an account? <Link to={'/signup'} >Signup</Link>{" "}
+                dont have an account? <Link to={'/signup'} className="text-danger">Register</Link>{" "}
               </p>
               <button
                 onClick={(e) => handleLogin(e)}
-                class="btn btn-primary btn-block w-100"
+                className="btn btn-primary btn-block w-100"
               >
                 Login
               </button>

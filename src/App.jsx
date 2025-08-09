@@ -17,6 +17,8 @@ import Footer from './components/Footer'
 
 const App = () => {
   const [user,setUser]=useState({})
+  // console.log("sorted user",user);
+  
   const navigate=useNavigate()
   useEffect(()=>{
     const SotredUser = sessionStorage.getItem("user")
@@ -46,7 +48,6 @@ const App = () => {
         <Route path='/admin' element={user && user?.role==='admin'?<AdminDashboard/>:<Login/>}/>
         <Route path='/all-transactions' element={user && user?.role=='admin'?<AllTransactions/>:<Login/>}/>
         <Route path='/all-comments' element={user && user?.role=='admin'?<AllComments/>:<Login/>}/>
-        {/* <Route path='/comments' element={'/com-section'}/> */}
       </Routes>
       {/* <Footer/> */}
     </>

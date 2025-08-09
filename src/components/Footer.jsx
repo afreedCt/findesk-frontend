@@ -3,6 +3,7 @@ import {
   addCommentAPI,
   AddReplyCommentAPI,
   deleteCommentAPI,
+  // deleteCommentAPI,
   getAllCommentsAPI,
 } from "../service/allApi";
 import DeleteModal from "./DeleteModal";
@@ -11,16 +12,19 @@ import Button from "react-bootstrap/Button";
 import { toast } from "react-toastify";
 
 const Footer = () => {
-  const [user,setUser]=useState('')
+  const [user, setUser] = useState({});
+
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
   const [reply, setReply] = useState("");
   const [showModal, setShowModal] = useState(false); //for delete modal component
-  const [userDetails, setUserDetails] = useState({}); //to store the usedetails for (Delete a comment)
+  const [commentDetails, setCommentDetails] = useState({}); //to store the usedetails for (Delete a comment)
 
   useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem("user"));
-    setUser(user)
+    const u = JSON.parse(sessionStorage.getItem("user"));
+    console.log("user", u);
+
+    setUser(u);
     fetchComments();
   }, []);
   const fetchComments = async () => {
@@ -51,10 +55,13 @@ const Footer = () => {
         comment,
         reply: [],
       };
+
       const res = await addCommentAPI(newComment);
+      console.log("new comment", res);
       if (res.status >= 200 && res.status < 300) {
         setComment("");
         fetchComments();
+        toast.success("comment added successfully");
       }
     } catch (error) {
       console.log("error to add a comment : ", error);
@@ -83,18 +90,22 @@ const Footer = () => {
 
       const res = await AddReplyCommentAPI(commentId, com);
       fetchComments();
-      setReply('')
+      setReply("");
+      toast.success("replay added successfully");
     } catch (error) {
       console.log("error to add reply comment : ", error);
     }
   };
 
-  const handleDeleteUser = async () => {
+  const handleDeleteUserComment = async () => {
+    console.log("suerdata", commentDetails);
+
     try {
-      const res = await deleteCommentAPI(userDetails?.id);
+      // toast.warning("under working not completed");
+      const res = await deleteCommentAPI(commentDetails?.id);
       if (res.status >= 200 && res.status < 300) {
         toast.success("comment deleted successfully ")
-        setUserDetails({})
+        setCommentDetails({})
         fetchComments();
       }
     } catch (error) {
@@ -127,8 +138,13 @@ const Footer = () => {
 
       {/* comment section */}
 
-      <h3 className="text-white mt-4 text-center ms-3 ">All Comments</h3>
-      <div className="row gap-3 ps-2" >
+      <h3
+        className="text-white mt-4 text-center ms-3"
+        style={{ display: comments?.length > 0 ? "block" : "none" }}
+      >
+        All Comments
+      </h3>
+      <div className="row gap-3 ps-2">
         {comments?.length > 0 &&
           comments.map((c, index) => (
             <div
@@ -143,27 +159,23 @@ const Footer = () => {
               <strong className="text-warning">{c?.username}</strong> |{" "}
               <small className="text-warning">{c?.date}</small> |{" "}
               <small className="text-warning">{c?.time}</small>
-              {
-                user?.id===c.userId &&(
-                  <i
-                    style={{ cursor: "pointer" }}
-                    className="fa-solid fa-user-pen ms-2"
-                  ></i>
-                )
-              }
-              {
-                user?.id==c.userId&&(
-                  <i
-                style={{ cursor: "pointer" }}
-                className="fa-solid fa-trash text-danger ms-2"
-                onClick={() => {
-                  setShowModal(true);
-                  setUserDetails(c);
-                }}
-              ></i>
-                )
-              }
-              
+              {user?.id === c.userId && (
+                <i
+                  style={{ cursor: "pointer" }}
+                  className="fa-solid fa-user-pen ms-2"
+                ></i>
+              )}
+              {user?.id == c.userId && (
+                <i
+                  style={{ cursor: "pointer" }}
+                  className="fa-solid fa-trash text-danger ms-2"
+                  onClick={() => {
+                    setShowModal(true);
+                    setCommentDetails(c);
+                    // handleDeleteUserComment(c);
+                  }}
+                ></i>
+              )}
               <p
                 className="pb-2"
                 style={{ maxWidth: "200px", borderBottom: "1px solid white" }}
@@ -191,7 +203,7 @@ const Footer = () => {
                   ))}
                 </div>
               )}
-              {user && (
+              {user && user?.id!=c.userId && (
                 <div className="d-flex gap-2 mt-2">
                   <input
                     type="text"
@@ -216,9 +228,9 @@ const Footer = () => {
         show={showModal}
         onClose={() => {
           setShowModal(false);
-          setUserDetails({});
+          setCommentDetails({});
         }}
-        onConfirm={handleDeleteUser}
+        onConfirm={handleDeleteUserComment}
       />
     </div>
   );

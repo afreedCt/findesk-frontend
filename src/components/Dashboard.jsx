@@ -11,6 +11,7 @@ import {
 } from "recharts";
 import { Link, useNavigate } from "react-router-dom";
 import { getAllTransactionsAPI } from "../service/allApi";
+import GuestLandingPage from "./GuestLandingPage";
 
 const Dashboard = () => {
   // const [transactions, setTransactions] = useState([]);
@@ -78,7 +79,7 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="container my-4 " style={{ minHeight: "75vh" }}>
+      {user?(<div className="container my-4 " style={{ minHeight: "75vh" }}>
         <div className="d-flex justify-content-between flex-wrap pb-2 pb-md-0">
           <h2 className="mb-4">📊 Dashboard</h2>
           <Link to={user ? "/add-income" : "/login"}>
@@ -117,8 +118,7 @@ const Dashboard = () => {
           </div>
         </div>
 
-        {monthlyData.length > 0 ? (
-          <div className="card">
+          {monthlyData.length>0&&<div className="card">
             <div className="card-header">Monthly Income vs Expense</div>
             <div className="card-body">
               <ResponsiveContainer width="100%" height={300}>
@@ -132,30 +132,12 @@ const Dashboard = () => {
                 </BarChart>
               </ResponsiveContainer>
             </div>
-          </div>
-        ) : (
-          <div className="shadow p-2">
-            {/* <h1 className="fw-bold text-center mt-5">
-              FINDESK - <span>Accounting software</span>
-            </h1>
-            <h5
-              className="text-center text-info my-5"
-              style={{ lineHeight: "35px" }}
-            >
-              this software helps users to track their{" "}
-              <b className="fs-4 text-danger">income</b> and{" "}
-              <b className="fs-4 text-danger">expences</b> efficiantly and users
-              anlyse their cahflow with graphs based on monthly data and you can
-              download <b className="fs-4 text-danger">ledger</b> and{" "}
-              <b className="fs-4 text-danger">profit and loss</b> account
-              statement as <b className="fs-4 text-danger">PDf</b> .feel free to
-              use the website properly and add your{" "}
-              <b className="fs-4 text-danger">comments</b> and suggestions in 
-              <b className="fs-4 text-danger"> footer</b>
-            </h5> */}
-          </div>
-        )}
-      </div>
+          </div>}
+      </div>):(
+        <div className="container my-4 " style={{ minHeight: "75vh" }}>
+          <GuestLandingPage/>
+        </div>
+      )}
     </>
   );
 };

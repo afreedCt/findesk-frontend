@@ -1,7 +1,7 @@
 import React from "react";
 
 const UpdateUserModal = ({userData,show, onClose, onConfirm ,setPassword,setUsername}) => {
-    console.log('userData',userData);
+    // console.log('userData',userData);
     
   return (
     <div className={`modal ${show ? "d-block" : "d-none"}`} tabIndex="-1">
@@ -21,7 +21,7 @@ const UpdateUserModal = ({userData,show, onClose, onConfirm ,setPassword,setUser
             <div><label htmlFor="">role : </label> <span className="fw-bold">{userData?.role}</span></div>
             <div>
             <label htmlFor="">Password (encrypted) : </label>
-            <span className="fw-bold">{userData?.password.slice(0,25)}</span>
+            <span className="fw-bold">{userData?.password?.slice(0,25)}</span>
             </div>
           </div>
           <div className="modal-footer">

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   AddReplyCommentAPI,
   deleteCommentAPI,
+  // deleteCommentAPI,
   getAllCommentsAPI,
 } from "../service/allApi";
 import { toast } from "react-toastify";
@@ -26,16 +27,15 @@ const AllComments = () => {
     }
   };
 
-  const handleDeleteComment = async (commentId) => {
+  const handleDeleteComment = async (comment) => {
     try {
-      console.log(commentId);
-
-      const res = await deleteCommentAPI(commentId);
+      // toast.warning("under working");
+      const res = await deleteCommentAPI(comment?.id);
       console.log("comment delted", res);
-      if (res.status >= 200 && res.status < 300) {
+      // if (res.status >= 200 && res.status < 300) {
         toast.success("comment deleted successfully");
         fetchComments();
-      }
+      // }
     } catch (error) {
       console.log("error to delete a comment (allComment) : ", error);
     }
@@ -68,13 +68,14 @@ const AllComments = () => {
         {comments.map((comment, commentIndex) => (
           <div key={commentIndex} className="card mb-3 shadow-sm">
             <div className="card-body">
-              <h5>{comment.username}</h5>
-              <small>{comment.date}</small>
-              <p className="mt-2">{comment.comment}</p>
+              <h5>{comment?.username}</h5>
+              <small>{comment?.date}</small>
+              <p className="mt-2">{comment?.comment}</p>
 
               <button
                 className="btn btn-danger btn-sm"
-                onClick={() => handleDeleteComment(comment?.id)}
+                onClick={() =>{handleDeleteComment(comment)}
+                }
               >
                 🗑️ Delete Comment
               </button>
@@ -87,9 +88,9 @@ const AllComments = () => {
                       key={replyIndex}
                       className="d-flex justify-content-between align-items-center shadow p-3"
                     >
-                      <p className="mb-1">{reply.replyComment}</p>
-                      <p>{reply.username}</p>
-                      <p>{reply.date}</p>
+                      <p className="mb-1">{reply?.replyComment}</p>
+                      <p>{reply?.username}</p>
+                      <p>{reply?.date}</p>
                       <button
                         className="btn btn-danger btn-sm"
                         onClick={() =>

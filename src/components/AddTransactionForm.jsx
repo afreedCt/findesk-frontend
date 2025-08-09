@@ -217,7 +217,7 @@ const AddTransactionForm = () => {
                 </tbody>
               </Table>
             ) : (
-              <div>no items to display</div>
+              <div className="text-center text-danger">no items to display</div>
             )}
           </div>
         </div>

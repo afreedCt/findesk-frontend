@@ -1,7 +1,9 @@
 import { useState } from "react";
 
-function DeleteModal({userData,message, show, onClose, onConfirm }) {
+function DeleteModal({message, show, onClose, onConfirm }) {
+  if (!show) return null; // Clean unmount, avoids flicker or stuck modal
   return (
+    <>
     <div className={`modal ${show ? "d-block" : "d-none"}`} tabIndex="-1">
       <div className="modal-dialog">
         <div className="modal-content">
@@ -23,6 +25,7 @@ function DeleteModal({userData,message, show, onClose, onConfirm }) {
         </div>
       </div>
     </div>
+    </>
   );
 }
 
