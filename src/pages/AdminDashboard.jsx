@@ -81,11 +81,11 @@ const AdminDashboard = () => {
     }
     try {
       const res = await deleteUserAPI(userDetails?.id);
-        console.log("Delete request sent. Refreshing data...");
-          toast.success(`${userDetails?.username} deleted successfully`);
-        getAllUsersData();
-        setShowModal(false);
-        setUserDetails({});
+      console.log("Delete request sent. Refreshing data...");
+      toast.success(`${userDetails?.username} deleted successfully`);
+      getAllUsersData();
+      setShowModal(false);
+      setUserDetails({});
       // if (res.status >= 200 && res.status < 300) {
       //   getAllUsersData();
       //   setShowModal(false);
