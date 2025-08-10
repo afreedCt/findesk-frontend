@@ -19,9 +19,9 @@ const Header = () => {
   //   document.body.setAttribute("data-bs-theme", isDark ? "dark" : "light");
   // };
   const handleSession = () => {
-    sessionStorage.removeItem("isLoggedIn");
+    // sessionStorage.removeItem("isLoggedIn");
     sessionStorage.removeItem("user");
-    navigate("/");
+    navigate("/login");
     // location.reload();
   };
 

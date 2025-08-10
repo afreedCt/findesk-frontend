@@ -103,11 +103,11 @@ const Footer = () => {
     try {
       // toast.warning("under working not completed");
       const res = await deleteCommentAPI(commentDetails?.id);
-      if (res.status >= 200 && res.status < 300) {
+      // if (res.status >= 200 && res.status < 300) {
         toast.success("comment deleted successfully ")
         setCommentDetails({})
         fetchComments();
-      }
+      // }
     } catch (error) {
       console.log("error to delete a comment (Footer.jsx) : ", error);
     }
