@@ -114,6 +114,10 @@ const Footer = () => {
 
     setShowModal(false);
   };
+
+  const handleEditComment=()=>{
+    toast.warning("under maintenence work")
+  }
   return (
     <div className="bg-dark w-100 mt-4 p-3">
       <div className="d-flex justify-content-center align-items-center ">
@@ -163,6 +167,7 @@ const Footer = () => {
                 <i
                   style={{ cursor: "pointer" }}
                   className="fa-solid fa-user-pen ms-2"
+                  onClick={handleEditComment}
                 ></i>
               )}
               {user?.id == c.userId && (
